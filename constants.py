@@ -7,3 +7,5 @@ class Collections:
     SUBJECT = 'Subject'
     STUDENT_GROUP = 'Student_group'
     SUBJECT_GROUP = 'Subject_group'
+    SYLLABUS = 'Syllabus'
+    FIELD = 'Field'

@@ -1,6 +1,6 @@
 from constants import Collections
 from mymongo import Database
-from models import Assignment
+from models import Assignment, Classroom, Subject, Syllabus, Field
 import pprint
 
 from pymongo import MongoClient
@@ -40,7 +40,7 @@ from pymongo import MongoClient
 ###########################  Example 2  ##############################
 
 # a = Assignment()
-# a.id = "1"
+# # a.id = "1"
 # a.grade = "1"
 # a.student_id = "1"
 # a.subject_id = "1"
@@ -66,4 +66,91 @@ from pymongo import MongoClient
 
 ###########################  Example 4  ##############################
 
+# a = Classroom()
+# a.id = "1"
+# a.name = "room_100"
+# a.headset_cnt = "14"
+# a.pc_cnt = "14"
+# a.seats_cnt = "24"
+# a.white_board = "Yes"
+# a.projector = "Yes"
+#
+# db = Database("WD")
+# # col, data = a.build_data()
+# db.insert(*a.build_data())
+# # al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
+# al = db.query(Collections.CLASSROOM, {"description.projector": "Yes"})
+# print(al)
+# for a in al:
+#     print(a)
+
+###########################  Example 5  ##############################
+
+# a = Subject()
+# a.id = "23"
+# a.name = "Math"
+# a.field = "Informatyka Techniczna"
+# a.ects = "6"
+# a.exam = "Yes"
+# a.lab_cnt = "30"
+# a.lectures_cnt = "80"
+# a.project = "Yes"
+#
+# db = Database("WD")
+# # col, data = a.build_data()
+# db.insert(*a.build_data())
+# # al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
+# al = db.query(Collections.SUBJECT, {"details.ects": "6"})
+# print(al)
+# for a in al:
+#     print(a)
+
+###########################  Example 6  ##############################
+
+# a = Syllabus()
+# a.id = "1"
+# a.faculty = "WIMiIP"
+# a.field = "IT"
+# a.description = "This is the syllabus of IT studies."
+# a.year = 2018
+# a.full_time_studies = "Yes"
+# a.subject_id = "1"
+#
+#
+# db = Database("WD")
+# # col, data = a.build_data()
+# db.insert(*a.build_data())
+# a.subject_id = "2"
+# db.update_by_id(*a.build_data(), a.id)
+# a.subject_id = "34"
+# db.update_by_id(*a.build_data(), a.id)
+#
+# # al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
+# al = db.query(Collections.SYLLABUS, {"subjects.subject_id": "34"})
+# print(al)
+# for a in al:
+#     print(a)
+
+
+###########################  Example 7  ##############################
+
+a = Field()
+a.id = "3"
+a.faculty = "WIMiIP"
+a.name = "Informatyka Techniczna"
+a.subject_id = "23"
+
+db = Database("WD")
+col, data = a.build_data()
+db.insert(*a.build_data())
+a.subject_id = "33"
+db.update_by_id(*a.build_data(), a.id)
+a.subject_id = "34"
+db.update_by_id(*a.build_data(), a.id)
+
+# al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
+al = db.query(Collections.SYLLABUS, {"subjects.subject_id": "34"})
+print(al)
+for a in al:
+    print(a)
 

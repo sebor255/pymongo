@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 class Database:
     def __init__(self, db_name):
         self.db_name = db_name
@@ -19,7 +20,7 @@ class Database:
 
     def update_by_id(self, collection, data, id):
         with self.connect() as db:
-            return db[self.db_name][collection].update_one({"_id":id}, {"$set": data})
+            return db[self.db_name][collection].update_one({"_id": id}, {"$set": data})
 
     def find_one(self, collection, data):
         with self.connect() as db:
@@ -51,6 +52,14 @@ class Database:
     def query_field_value(self, collection, query, value):
         with self.connect() as db:
             return db[self.db_name][collection].find({query: {"$lte": value}})
+
+    def query(self, collection, query):
+        with self.connect() as db:
+            print(query)
+            return db[self.db_name][collection].find(query)
+
+    def new_index(self):
+        pass
 
 #
 # a = Database("WD")
