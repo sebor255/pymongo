@@ -134,23 +134,59 @@ from pymongo import MongoClient
 
 ###########################  Example 7  ##############################
 
-a = Field()
-a.id = "3"
-a.faculty = "WIMiIP"
-a.name = "Informatyka Techniczna"
-a.subject_id = "23"
+# a = Field()
+# a.id = "3"
+# a.faculty = "WIMiIP"
+# a.name = "Informatyka Techniczna"
+# a.subject_id = "23"
+#
+# db = Database("WD")
+# col, data = a.build_data()
+# db.insert(*a.build_data())
+# a.subject_id = "33"
+# db.update_by_id(*a.build_data(), a.id)
+# a.subject_id = "34"
+# db.update_by_id(*a.build_data(), a.id)
+#
+# # al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
+# al = db.query(Collections.SYLLABUS, {"subjects.subject_id": "34"})
+# print(al)
+# for a in al:
+#     print(a)
 
-db = Database("WD")
-col, data = a.build_data()
-db.insert(*a.build_data())
-a.subject_id = "33"
-db.update_by_id(*a.build_data(), a.id)
-a.subject_id = "34"
-db.update_by_id(*a.build_data(), a.id)
+host = "db2020-aggregations-2sawx.mongodb.net"
+login = "zabd2020"
+password = "aggregations"
 
-# al = db.query(Collections.CLASSROOM, {"description": {"$elemMatch": {"projector": "Yes" ''', "white_board": "Yes" '''}}})
-al = db.query(Collections.SYLLABUS, {"subjects.subject_id": "34"})
-print(al)
-for a in al:
-    print(a)
+connection = Database.connect_net(host, login, password)
+
+col = connection["db-aggregations"]
+a = col["movies"].find_one({"year": 1893})
+print(a)
+
+collection = connection["db-aggregations"]
+a = collection["movies"].aggregate([
+                                {"$match": {"languages": {"$in": ["English", "German"]}, "imdb.rating": {"$gte": 0}}},
+                                {"$project": {"_id": 0, "title": "$title", "rating": "$imdb.rating"}},
+                                {"$sort": {"rating": -1}}
+                                ])
+for i, x in enumerate(a):
+    pprint.pprint(x)
+    if i == 3:
+        break
+
+
+# collection = connection["db-aggregations"]
+# a = collection["movies"].aggregate([
+#                                 {"$match": {"year": {"$gte": 1960},
+#                                             "imdb.rating": {"$gte": 0},
+#                                             "cast": {"$in": ["$directors"]}
+#                                             }}
+#
+#                                 ])
+#
+# for i, x in enumerate(a):
+#     pprint.pprint(x)
+#     # if i == 3:
+#     #     break
 

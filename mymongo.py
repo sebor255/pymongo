@@ -9,6 +9,10 @@ class Database:
     def connect():
         return MongoClient(host='localhost', port=27017)
 
+    @staticmethod
+    def connect_net(host, username, password):
+        return MongoClient(host='mongodb+srv://'+host, username=username, password=password)
+
     def insert(self, collection, data):
         with self.connect() as db:
             try:
